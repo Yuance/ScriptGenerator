@@ -1,0 +1,859 @@
+//eran 12.1
+
+MOD ENODEBALGOSWITCH: HoAlgoSwitch=IntraFreqCoverHoSwitch-1&InterFreqCoverHoSwitch-1&UtranCsfbSwitch-1&UtranServiceHoSwitch-1, HoModeSwitch=UtranPsHoSwitch-1&UtranSrvccSwitch-1&UtranRedirectSwitch-1&BlindHoSwitch-1, AnrSwitch=IntraRatEventAnrSwitch-1&IntraRatAnrAutoDelSwitch-1&UtranEventAnrSwitch-1&UtranAutoNrtDeleteSwitch-1, FreqLayerSwtich=UtranFreqLayerMeasSwitch-1&UtranFreqLayerBlindSwitch-1&UtranSrvccSteeringSwitch-1, CaAlgoSwitch=SccBlindCfgSwitch-1&HoWithSccCfgSwitch-1, HoCommOptSwitch=BasedSriGapOptSwitch-1, HighLoadNetOptSwitch=SPECSIGRETRANSOPTSWITCH-1;
+MOD ANR: NcellHoStatNum=30, StatisticPeriodForNRTDel=2880, NcellHoForNRTDelThd=1, CaUeChoseMode=ANR_UE_CAP, NrtDelMode=EUTRAN_DELREDUNDANCENCELL-1&UTRAN_DELREDUNDANCENCELL-1&UTRAN_DELERRORNCELL-1, UtranNcellHoForNRTDelThd=1;
+MOD ENODEBALGOSWITCH: HoSignalingOptSwitch=AddA2MeasIfQciAdjSwitch-1;
+MOD ENODEBALGOSWITCH: HoCommOptSwitch=DrxBasedSriGapOptSwitch-1;
+MOD DRX: DrxInactivityTimerForAnr=PSF40;
+
+
+MOD PDCPROHCPARA: RohcSwitch=ON, HighestMode=O_MODE, Profiles=Profile0x0001-1&Profile0x0002-1&Profile0x0003-0&Profile0x0004-0;
+MOD RLCPDCPPARAGROUP: RlcPdcpParaGroupId=0, DiscardTimer=DiscardTimer_150, RlcMode=RlcMode_UM, PdcpSnSize=PdcpSnsize_12bits, UlRlcSnSize=RlcSnSize_size10, DlRlcSnSize=RlcSnSize_size10;
+MOD RLCPDCPPARAGROUP: RlcPdcpParaGroupId=4, DiscardTimer=DiscardTimer_Infinity; 
+MOD CNOPERATORSTANDARDQCI: CnOperatorId=0, Qci=QCI1, ServiceIrHoCfgGroupId=1;
+MOD STANDARDQCI: Qci=QCI5, InterRatPolicyCfgGroupId=3;
+MOD EMC: CnOperatorId=0, EmcEnable=OFF;
+MOD GLOBALPROCSWITCH:X2SONDELETESWITCH=BASED_ON_X2FAULT-1&BASED_ON_X2USAGE_WITH_NEGO-1,X2SONDELETETIMERFORX2FAULT=1440,X2SONDELETETIMERFORX2USAGE=1440,X2SONDELETEHOINNUMTHD=1,X2SONDELETEHOOUTNUMTHD=1;
+MOD STANDARDQCI:Qci=QCI7, RlcPdcpParaGroupId=5;
+MOD STANDARDQCI:QCI=QCI6,ULSCHPRIORITYFACTOR=300,DLSCHPRIORITYFACTOR=300,UlMinGbr=MinGbrRate_8_KB,DlMinGbr=MinGbrRate_8_KB;
+MOD STANDARDQCI:QCI=QCI9,ULSCHPRIORITYFACTOR=100,DLSCHPRIORITYFACTOR=100,UlMinGbr=MinGbrRate_1_KB,DlMinGbr=MinGbrRate_1_KB;
+MOD CSFALLBACKPOLICYCFG: CsfbHoPolicyCfg=REDIRECTION-1&PS_HO-0;
+MOD ENODEBALGOSWITCH: UeNumPreemptSwitch=IntraOpUeNumPreemptSwitch-1;
+MOD ENODEBALGOSWITCH: VQMAlgoSwitch=VQM_ALGO_SWITCH_AMR_ON, E2EVQIAlgoSwitch=OFF;
+MOD ANR: StatisticPeriodForNRTDel=1440, StatisticNumForNRTDel=50, NcellHoForNRTDelThd=20, NrtDelMode=UTRAN_DELERRORNCELL-1&EUTRAN_DELCELLERRORNCELL-1, UtranNcellHoForNRTDelThd=10;
+MOD ENODEBALGOSWITCH: AnrSwitch=IntraRatNoHoSetAnrSwitch-0;
+MOD ANR: UtranEventAnrMode=NOT_BASED_NCL;
+MOD RRCCONNSTATETIMER: UeInactiveTimer=5;
+//Run below scripts if CA needs to be configured
+ADD CAGROUP: CaGroupId=0, CaGroupTypeInd=FDD;
+ADD CAGROUP: CaGroupId=1, CaGroupTypeInd=FDD;
+ADD CAGROUP: CaGroupId=2, CaGroupTypeInd=FDD;
+
+//Cell 1
+
+
+//Non-Coastal L18
+MOD CELLRESEL: LocalCellId=1, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+ADD EUTRANINTERNFREQ: LocalCellID=1, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, MeasBandWidth=MBW100, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD EUTRANINTERNFREQ: LocalCellID=1, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD INTERFREQHOGROUP: LocalCellId=1, InterFreqHoGroupId=0, InterFreqHoA1A2Hyst=4, InterFreqHoA1ThdRsrp=-105, InterFreqHoA2ThdRsrp=-109, InterFreqHoA4Hyst=4, InterFreqHoA4ThdRsrp=-109;
+
+
+MOD TATIMER: LocalCellId=1, TimeAlignmentTimer=SF5120, TimingResOptSwitch=ON;
+
+
+//U21 sites
+ADD UTRANNFREQ: LocalCellId=1,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=1,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellID=1,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=1,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=1,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellID=1,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+////////
+
+
+
+MOD CELLULSCHALGO: LocalCellId=1, UlEnhencedVoipSchSw=UlVoipPreAllocationSwitch-1;
+ADD CELLPREALLOCGROUP: LocalCellId=1, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+MOD CELLPREALLOCGROUP: LocalCellId=1, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+ADD CELLPREALLOCGROUP: LocalCellId=1, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+MOD CELLPREALLOCGROUP: LocalCellId=1, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+ADD DRXPARAGROUP: LocalCellId=1, DrxParaGroupId=1, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+ADD DRXPARAGROUP: LocalCellId=1, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+ADD DRXPARAGROUP: LocalCellId=1, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=1, DrxParaGroupId=1, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+MOD DRXPARAGROUP: LocalCellId=1, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=1, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD CELLULSCHALGO: LocalCellId=1, PuschDtxSchStrategy=ADAPTIVE_RETX, UlVoipRlcMaxSegNum=20;
+MOD CELLMCPARA: LocalCellId=1, ReportAmount=r1, ReportInterval=1min;
+
+MOD INTERRATHOCOMMGROUP: LocalCellId=1, InterRatHoCommGroupId=0, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-111, InterRatHoA2ThdRsrp=-115;
+ADD INTERRATHOCOMMGROUP: LocalCellId=1, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD INTERRATHOCOMMGROUP: LocalCellId=1, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD SRSCFG: LocalCellId=1, SrsCfgInd=BOOLEAN_TRUE, FddSrsCfgMode=ADAPTIVEMODE;
+MOD CELLPDCCHALGO: LocalCellId=1, PdcchCapacityImproveSwitch=ON, PdcchMaxCodeRate=95, HysForCfiBasedPreSch=0;
+MOD CELLALGOSWITCH: LocalCellId=1, UlSchSwitch=UlLast2RetransSchOptSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=1, CqiAdjAlgoSwitch=DlRetxTbsIndexAdjOptSwitch-1;
+MOD ANR: SmartPreallocationMode=DISABLE;
+MOD CELLULSCHALGO: LocalCellId=1, UlEnhencedVoipSchSw=UlVoipSchOptSwitch-1;
+
+
+
+
+ADD INTERRATHOUTRANGROUP: LocalCellId=1, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=1, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=1, InterRatHoUtranGroupId=0, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=640ms;
+MOD CELLQCIPARA: LocalCellId=1, Qci=1, InterRatHoCommGroupId=1, InterRatHoUtranGroupId=1, DrxParaGroupId=1, QciPriorityForHo=1, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=1, Qci=2, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=1, Qci=3, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=1, Qci=4, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=1, Qci=5, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=4, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=1, Qci=6, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=1, Qci=7, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=1, Qci=8, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=1, Qci=9, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+
+MOD CELLALGOSWITCH: LocalCellId=1, MlbAlgoSwitch=InterFreqMlbSwitch-0&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=1, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+
+//Run below scripts if CA needs to be configured
+MOD CAMGTCFG: LocalCellId=1,CarrierMgtSwitch=ON,ActiveBufferLenThd=6,DeactiveBufferLenThd=3,ActiveBufferDelayThd=10,DeactiveThroughputThd=100,SccDeactCqiThd=2;
+MOD CELLDLSCHALGO: LocalCellId=1, CaSchStrategy=DIFF_SCHEDULE, HoStaticMcsTimer=10;
+MOD CELLALGOSWITCH: LocalCellId=1, MlbAlgoSwitch=InterFreqMlbSwitch-1&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=1, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+ADD EUTRANINTERFREQNCELL: LocalCellId=1, Mcc="525", Mnc="03", eNodeBId=132650, CellId=4, OverlapInd=YES;
+MOD EUTRANINTERFREQNCELL: LocalCellId=1, Mcc="525", Mnc="03", eNodeBId=132650, CellId=4, OverlapInd=YES;
+MOD EUTRANINTERNFREQ: LocalCellID=1, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6;
+MOD CELLRESEL: LocalCellId=1, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+//Expansion site needs to exe below for existing cell
+ADD EUTRANINTERFREQNCELL: LocalCellId=1, Mcc="525", Mnc="03", eNodeBId=132650, CellId=4, NoRmvFlag=FORBID_RMV_ENUM;
+MOD EUTRANINTERFREQNCELL: LocalCellId=1, Mcc="525", Mnc="03", eNodeBId=132650, CellId=4, NoRmvFlag=FORBID_RMV_ENUM;
+ADD CAGROUPCELL: CaGroupId=0, LocalCellId=1, eNodeBId=132650;
+ADD CAGROUPSCELLCFG: LocalCellId=1, SCelleNodeBId=132650, SCellLocalCellId=4, SCellBlindCfgFlag=TRUE;
+MOD CELLDLSCHALGO: LocalCellId=1, CaSchStrategy=DIFF_SCHEDULE;
+/////////
+
+//By default
+MOD PDSCHCFG: LocalCellId=1, ReferenceSignalPwr=152, Pb=0;
+MOD CELLDLPCPDSCHPA: LocalCellId=1, PaPcOff=DB0_P_A;
+MOD CELLDLPCPDCCH: LocalCellId=1, DediDciPwrOffset=0;
+MOD CELLDLPCPHICH: LocalCellId=1, PwrOffset=30;
+MOD CELLCHPWRCFG: LocalCellId=1, PcfichPwr=0, PbchPwr=0, SchPwr=0, DbchPwr=0, PchPwr=0, RaRspPwr=600;
+////////
+
+
+MOD CELLALGOSWITCH: LocalCellId=1, RachAlgoSwitch=RachAdjSwitch-1&HoRaSwitch-1&UnsyncRaSwitch-1, SrsAlgoSwitch=SrsSubframeRecfSwitch-1, PucchAlgoSwitch=PucchSwitch-1, AqmAlgoSwitch=AqmAlgoSwitch-1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&DlCqiAdjDeltaOptSwitch-1, DynAdjVoltSwitch=DynAdjVoltSwitch-1, RacAlgoSwitch=PreemptionSwitch-1, DlPcAlgoSwitch=PdschSpsPcSwitch-0&PdcchPcSwitch-1, UlPcAlgoSwitch=CloseLoopSpsSwitch-0&InnerLoopPuschSwitch-1&InnerLoopPucchSwitch-1, DlSchSwitch=FreqSelSwitch-1&SpsSchSwitch-0&EnAperiodicCqiRptSwitch-1&AperiodicCqiTrigOptSwitch-1&VoipTbsBasedMcsSelSwitch-1, UlSchSwitch=SpsSchSwitch-0&SinrAdjustSwitch-1&PreAllocationSwitch-1&TtiBundlingSwitch-1&SmartPreAllocationSwitch-1&PuschDtxSwitch-1&UlEnhancedFssSwitch-1&SchedulerCtrlPowerSwitch-1, FreqPriorityHoSwitch=FreqPriorIFBlindHOSwitch-1, UplinkCompSwitch=UlJointReceptionSwitch-1, PuschIrcAlgoSwitch=MrcIrcAdptSwitch-1&MrcIrcAdaptivefor2R-1;
+ADD UTRANRANSHARE:LocalCellId=1, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=1, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=1, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=1, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=1, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=1, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD CELLMIMOPARACFG: LocalCellId=1, MimoAdaptiveSwitch=NO_ADAPTIVE, FixedMimoMode=TM3, InitialMimoType=ADAPTIVE;
+MOD CELLPDCCHALGO: LocalCellID=1, PdcchPowerEnhancedSwitch=ON;
+MOD CELLALGOSWITCH: LocalCellId=1, UlPcAlgoSwitch=OuterLoopPucchSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=1, InterfRandSwitch=ENB_BASED;
+MOD CELLDLSCHALGO: LocalCellId=1, EnbInterfRandMod=MOD3;
+MOD CELLULSCHALGO: LocalCellId=1, ULRBALLOCATIONSTRATEGY=FS_INRANDOM_ADAPTIVE, UlInterfRandomMode=THREE_MODE_BASED_ON_PCI;
+MOD CELLALGOSWITCH: LocalCellId=1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&StepVarySwitch-0&DlVarIBLERtargetSwitch-0&TddBundlingCqiAdjOptSwitch-0&TddMultiplexingCqiAdjOptSwitch-0&AdaptiveStepVarySwitch-0&DlCqiAdjDeltaOptSwitch-1&DlEnVarIblerTargetSwitch-0&DlRetxTbsIndexAdjOptSwitch-1&CfiConvertOptSwitch-0&BundlingOptThdSwitch-0;
+MOD CELLDLSCHALGO: LocalCellId=1, CqiAdjInitialStep=100;
+MOD CELLCQIADJALGO: LocalCellId=1, InitDeltaCqi=-4;
+MOD CELLALGOSWITCH: LocalCellId=1, UplinkCompSwitch=UlJointReceptionSwitch-1&UlJointReception3CellSwitch-1;
+MOD PUCCHCFG: LocalCellId=1, Format1ChAllocMode=RANDOMMODE;
+MOD CELLRESEL: LocalCellId=1, SpeedDepReselCfgInd=CFG;
+MOD TATIMER: LocalCellId=1, TimeAlignmentTimer=INFINITY, TimingAdvCmdOptSwitch=ON, TACmdSendPeriod=SF928, TimingMeasMode=INVALID, TimingResOptSwitch=ON;
+MOD SECTOR: SECTORID=1, LOCATIONNAME="132650";
+ADD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD CELLULPCCOMM: LocalCellId=1, PassLossCoeff=AL1, P0NominalPUCCH=-115, P0NominalPUSCH=-106;
+MOD RACHCFG: LocalCellId=1, PwrRampingStep=DB4_PWR_RAMPING_STEP, PreambInitRcvTargetPwr=DBM_110;
+MOD UETIMERCONST: LocalCellId=1, T300=MS1000_T300, T301=MS600_T301, T310=MS2000_T310;
+MOD PUSCHCFG: LOCALCELLID=1, QAM64ENABLED=BOOLEAN_TRUE, R12Qam64Enabled=BOOLEAN_TRUE;
+MOD CELLCQIADAPTIVECFG: LocalCellId=1, HoAperiodicCqiCfgSwitch=ON;
+//Cell 2
+
+
+//Non-Coastal L18
+MOD CELLRESEL: LocalCellId=2, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+ADD EUTRANINTERNFREQ: LocalCellID=2, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, MeasBandWidth=MBW100, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD EUTRANINTERNFREQ: LocalCellId=2, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD INTERFREQHOGROUP: LocalCellId=2, InterFreqHoGroupId=0, InterFreqHoA1A2Hyst=4, InterFreqHoA1ThdRsrp=-105, InterFreqHoA2ThdRsrp=-109, InterFreqHoA4Hyst=4, InterFreqHoA4ThdRsrp=-109;
+
+
+MOD TATIMER: LocalCellId=2, TimeAlignmentTimer=SF5120, TimingResOptSwitch=ON;
+
+
+//U21 sites
+ADD UTRANNFREQ: LocalCellId=2,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=2,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=2,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=2,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=2,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=2,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+////////
+
+
+
+MOD CELLULSCHALGO: LocalCellId=2, UlEnhencedVoipSchSw=UlVoipPreAllocationSwitch-1;
+ADD CELLPREALLOCGROUP: LocalCellId=2, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+MOD CELLPREALLOCGROUP: LocalCellId=2, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+ADD CELLPREALLOCGROUP: LocalCellId=2, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+MOD CELLPREALLOCGROUP: LocalCellId=2, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+ADD DRXPARAGROUP: LocalCellId=2, DrxParaGroupId=1, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+ADD DRXPARAGROUP: LocalCellId=2, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+ADD DRXPARAGROUP: LocalCellId=2, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=2, DrxParaGroupId=1, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+MOD DRXPARAGROUP: LocalCellId=2, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=2, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD CELLULSCHALGO: LocalCellId=2, PuschDtxSchStrategy=ADAPTIVE_RETX, UlVoipRlcMaxSegNum=20;
+MOD CELLMCPARA: LocalCellId=2, ReportAmount=r1, ReportInterval=1min;
+
+MOD INTERRATHOCOMMGROUP: LocalCellId=2, InterRatHoCommGroupId=0, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-111, InterRatHoA2ThdRsrp=-115;
+ADD INTERRATHOCOMMGROUP: LocalCellId=2, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD INTERRATHOCOMMGROUP: LocalCellId=2, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD SRSCFG: LocalCellId=2, SrsCfgInd=BOOLEAN_TRUE, FddSrsCfgMode=ADAPTIVEMODE;
+MOD CELLPDCCHALGO: LocalCellId=2, PdcchCapacityImproveSwitch=ON, PdcchMaxCodeRate=95, HysForCfiBasedPreSch=0;
+MOD CELLALGOSWITCH: LocalCellId=2, UlSchSwitch=UlLast2RetransSchOptSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=2, CqiAdjAlgoSwitch=DlRetxTbsIndexAdjOptSwitch-1;
+MOD ANR: SmartPreallocationMode=DISABLE;
+MOD CELLULSCHALGO: LocalCellId=2, UlEnhencedVoipSchSw=UlVoipSchOptSwitch-1;
+
+
+
+
+ADD INTERRATHOUTRANGROUP: LocalCellId=2, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=2, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=2, InterRatHoUtranGroupId=0, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=640ms;
+MOD CELLQCIPARA: LocalCellId=2, Qci=1, InterRatHoCommGroupId=1, InterRatHoUtranGroupId=1, DrxParaGroupId=1, QciPriorityForHo=1, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=2, Qci=2, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=2, Qci=3, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=2, Qci=4, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=2, Qci=5, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=4, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=2, Qci=6, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=2, Qci=7, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=2, Qci=8, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=2, Qci=9, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+
+MOD CELLALGOSWITCH: LocalCellId=2, MlbAlgoSwitch=InterFreqMlbSwitch-0&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=2, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+
+//Run below scripts if CA needs to be configured
+MOD CAMGTCFG: LocalCellId=2,CarrierMgtSwitch=ON,ActiveBufferLenThd=6,DeactiveBufferLenThd=3,ActiveBufferDelayThd=10,DeactiveThroughputThd=100,SccDeactCqiThd=2;
+MOD CELLDLSCHALGO: LocalCellId=2, CaSchStrategy=DIFF_SCHEDULE, HoStaticMcsTimer=10;
+MOD CELLALGOSWITCH: LocalCellId=2, MlbAlgoSwitch=InterFreqMlbSwitch-1&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=2, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+ADD EUTRANINTERFREQNCELL: LocalCellId=2, Mcc="525", Mnc="03", eNodeBId=132650, CellId=5, OverlapInd=YES;
+MOD EUTRANINTERFREQNCELL: LocalCellId=2, Mcc="525", Mnc="03", eNodeBId=132650, CellId=5, OverlapInd=YES;
+MOD EUTRANINTERNFREQ: LocalCellID=2, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6;
+MOD CELLRESEL: LocalCellId=2, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+//Expansion site needs to exe below for existing cell
+ADD EUTRANINTERFREQNCELL: LocalCellId=2, Mcc="525", Mnc="03", eNodeBId=132650, CellId=5, NoRmvFlag=FORBID_RMV_ENUM;
+MOD EUTRANINTERFREQNCELL: LocalCellId=2, Mcc="525", Mnc="03", eNodeBId=132650, CellId=5, NoRmvFlag=FORBID_RMV_ENUM;
+ADD CAGROUPCELL: CaGroupId=1, LocalCellId=2, eNodeBId=132650;
+ADD CAGROUPSCELLCFG: LocalCellId=2, SCelleNodeBId=132650, SCellLocalCellId=5, SCellBlindCfgFlag=TRUE;
+MOD CELLDLSCHALGO: LocalCellId=2, CaSchStrategy=DIFF_SCHEDULE;
+/////////
+
+//By default
+MOD PDSCHCFG: LocalCellId=2, ReferenceSignalPwr=152, Pb=0;
+MOD CELLDLPCPDSCHPA: LocalCellId=2, PaPcOff=DB0_P_A;
+MOD CELLDLPCPDCCH: LocalCellId=2, DediDciPwrOffset=0;
+MOD CELLDLPCPHICH: LocalCellId=2, PwrOffset=30;
+MOD CELLCHPWRCFG: LocalCellId=2, PcfichPwr=0, PbchPwr=0, SchPwr=0, DbchPwr=0, PchPwr=0, RaRspPwr=600;
+////////
+
+
+MOD CELLALGOSWITCH: LocalCellId=2, RachAlgoSwitch=RachAdjSwitch-1&HoRaSwitch-1&UnsyncRaSwitch-1, SrsAlgoSwitch=SrsSubframeRecfSwitch-1, PucchAlgoSwitch=PucchSwitch-1, AqmAlgoSwitch=AqmAlgoSwitch-1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&DlCqiAdjDeltaOptSwitch-1, DynAdjVoltSwitch=DynAdjVoltSwitch-1, RacAlgoSwitch=PreemptionSwitch-1, DlPcAlgoSwitch=PdschSpsPcSwitch-0&PdcchPcSwitch-1, UlPcAlgoSwitch=CloseLoopSpsSwitch-0&InnerLoopPuschSwitch-1&InnerLoopPucchSwitch-1, DlSchSwitch=FreqSelSwitch-1&SpsSchSwitch-0&EnAperiodicCqiRptSwitch-1&AperiodicCqiTrigOptSwitch-1&VoipTbsBasedMcsSelSwitch-1, UlSchSwitch=SpsSchSwitch-0&SinrAdjustSwitch-1&PreAllocationSwitch-1&TtiBundlingSwitch-1&SmartPreAllocationSwitch-1&PuschDtxSwitch-1&UlEnhancedFssSwitch-1&SchedulerCtrlPowerSwitch-1, FreqPriorityHoSwitch=FreqPriorIFBlindHOSwitch-1, UplinkCompSwitch=UlJointReceptionSwitch-1, PuschIrcAlgoSwitch=MrcIrcAdptSwitch-1&MrcIrcAdaptivefor2R-1;
+ADD UTRANRANSHARE:LocalCellId=2, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=2, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=2, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=2, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=2, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=2, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD CELLMIMOPARACFG: LocalCellId=2, MimoAdaptiveSwitch=NO_ADAPTIVE, FixedMimoMode=TM3, InitialMimoType=ADAPTIVE;
+MOD CELLPDCCHALGO: LocalCellID=2, PdcchPowerEnhancedSwitch=ON;
+MOD CELLALGOSWITCH: LocalCellId=2, UlPcAlgoSwitch=OuterLoopPucchSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=2, InterfRandSwitch=ENB_BASED;
+MOD CELLDLSCHALGO: LocalCellId=2, EnbInterfRandMod=MOD3;
+MOD CELLULSCHALGO: LocalCellId=2, ULRBALLOCATIONSTRATEGY=FS_INRANDOM_ADAPTIVE, UlInterfRandomMode=THREE_MODE_BASED_ON_PCI;
+MOD CELLALGOSWITCH: LocalCellId=2, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&StepVarySwitch-0&DlVarIBLERtargetSwitch-0&TddBundlingCqiAdjOptSwitch-0&TddMultiplexingCqiAdjOptSwitch-0&AdaptiveStepVarySwitch-0&DlCqiAdjDeltaOptSwitch-1&DlEnVarIblerTargetSwitch-0&DlRetxTbsIndexAdjOptSwitch-1&CfiConvertOptSwitch-0&BundlingOptThdSwitch-0;
+MOD CELLDLSCHALGO: LocalCellId=2, CqiAdjInitialStep=100;
+MOD CELLCQIADJALGO: LocalCellId=2, InitDeltaCqi=-4;
+MOD CELLALGOSWITCH: LocalCellId=2, UplinkCompSwitch=UlJointReceptionSwitch-1&UlJointReception3CellSwitch-1;
+MOD PUCCHCFG: LocalCellId=2, Format1ChAllocMode=RANDOMMODE;
+MOD CELLRESEL: LocalCellId=2, SpeedDepReselCfgInd=CFG;
+MOD TATIMER: LocalCellId=2, TimeAlignmentTimer=INFINITY, TimingAdvCmdOptSwitch=ON, TACmdSendPeriod=SF928, TimingMeasMode=INVALID, TimingResOptSwitch=ON;
+MOD SECTOR: SECTORID=2, LOCATIONNAME="132650";
+ADD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD CELLULPCCOMM: LocalCellId=2, PassLossCoeff=AL1, P0NominalPUCCH=-115, P0NominalPUSCH=-106;
+MOD RACHCFG: LocalCellId=2, PwrRampingStep=DB4_PWR_RAMPING_STEP, PreambInitRcvTargetPwr=DBM_110;
+MOD UETIMERCONST: LocalCellId=2, T300=MS1000_T300, T301=MS600_T301, T310=MS2000_T310;
+MOD PUSCHCFG: LOCALCELLID=2, QAM64ENABLED=BOOLEAN_TRUE, R12Qam64Enabled=BOOLEAN_TRUE;
+MOD CELLCQIADAPTIVECFG: LocalCellId=2, HoAperiodicCqiCfgSwitch=ON;
+//Cell 3
+
+
+//Non-Coastal L18
+MOD CELLRESEL: LocalCellId=3, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+ADD EUTRANINTERNFREQ: LocalCellID=3, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, MeasBandWidth=MBW100, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD EUTRANINTERNFREQ: LocalCellId=3, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD INTERFREQHOGROUP: LocalCellId=3, InterFreqHoGroupId=0, InterFreqHoA1A2Hyst=4, InterFreqHoA1ThdRsrp=-105, InterFreqHoA2ThdRsrp=-109, InterFreqHoA4Hyst=4, InterFreqHoA4ThdRsrp=-109;
+
+
+MOD TATIMER: LocalCellId=3, TimeAlignmentTimer=SF5120, TimingResOptSwitch=ON;
+
+
+//U21 sites
+ADD UTRANNFREQ: LocalCellId=3,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=3,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=3,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=3,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=3,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=3,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+////////
+
+
+
+MOD CELLULSCHALGO: LocalCellId=3, UlEnhencedVoipSchSw=UlVoipPreAllocationSwitch-1;
+ADD CELLPREALLOCGROUP: LocalCellId=3, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+MOD CELLPREALLOCGROUP: LocalCellId=3, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+ADD CELLPREALLOCGROUP: LocalCellId=3, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+MOD CELLPREALLOCGROUP: LocalCellId=3, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+ADD DRXPARAGROUP: LocalCellId=3, DrxParaGroupId=1, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+ADD DRXPARAGROUP: LocalCellId=3, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+ADD DRXPARAGROUP: LocalCellId=3, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=3, DrxParaGroupId=1, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+MOD DRXPARAGROUP: LocalCellId=3, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=3, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD CELLULSCHALGO: LocalCellId=3, PuschDtxSchStrategy=ADAPTIVE_RETX, UlVoipRlcMaxSegNum=20;
+MOD CELLMCPARA: LocalCellId=3, ReportAmount=r1, ReportInterval=1min;
+
+MOD INTERRATHOCOMMGROUP: LocalCellId=3, InterRatHoCommGroupId=0, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-111, InterRatHoA2ThdRsrp=-115;
+ADD INTERRATHOCOMMGROUP: LocalCellId=3, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD INTERRATHOCOMMGROUP: LocalCellId=3, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD SRSCFG: LocalCellId=3, SrsCfgInd=BOOLEAN_TRUE, FddSrsCfgMode=ADAPTIVEMODE;
+MOD CELLPDCCHALGO: LocalCellId=3, PdcchCapacityImproveSwitch=ON, PdcchMaxCodeRate=95, HysForCfiBasedPreSch=0;
+MOD CELLALGOSWITCH: LocalCellId=3, UlSchSwitch=UlLast2RetransSchOptSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=3, CqiAdjAlgoSwitch=DlRetxTbsIndexAdjOptSwitch-1;
+MOD ANR: SmartPreallocationMode=DISABLE;
+MOD CELLULSCHALGO: LocalCellId=3, UlEnhencedVoipSchSw=UlVoipSchOptSwitch-1;
+
+
+
+
+ADD INTERRATHOUTRANGROUP: LocalCellId=3, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=3, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=3, InterRatHoUtranGroupId=0, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=640ms;
+MOD CELLQCIPARA: LocalCellId=3, Qci=1, InterRatHoCommGroupId=1, InterRatHoUtranGroupId=1, DrxParaGroupId=1, QciPriorityForHo=1, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=3, Qci=2, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=3, Qci=3, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=3, Qci=4, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=3, Qci=5, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=4, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=3, Qci=6, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=3, Qci=7, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=3, Qci=8, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=3, Qci=9, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+
+MOD CELLALGOSWITCH: LocalCellId=3, MlbAlgoSwitch=InterFreqMlbSwitch-0&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=3, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+
+//Run below scripts if CA needs to be configured
+MOD CAMGTCFG: LocalCellId=3,CarrierMgtSwitch=ON,ActiveBufferLenThd=6,DeactiveBufferLenThd=3,ActiveBufferDelayThd=10,DeactiveThroughputThd=100,SccDeactCqiThd=2;
+MOD CELLDLSCHALGO: LocalCellId=3, CaSchStrategy=DIFF_SCHEDULE, HoStaticMcsTimer=10;
+MOD CELLALGOSWITCH: LocalCellId=3, MlbAlgoSwitch=InterFreqMlbSwitch-1&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=3, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+ADD EUTRANINTERFREQNCELL: LocalCellId=3, Mcc="525", Mnc="03", eNodeBId=132650, CellId=6, OverlapInd=YES;
+MOD EUTRANINTERFREQNCELL: LocalCellId=3, Mcc="525", Mnc="03", eNodeBId=132650, CellId=6, OverlapInd=YES;
+MOD EUTRANINTERNFREQ: LocalCellID=3, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6;
+MOD CELLRESEL: LocalCellId=3, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+//Expansion site needs to exe below for existing cell
+ADD EUTRANINTERFREQNCELL: LocalCellId=3, Mcc="525", Mnc="03", eNodeBId=132650, CellId=6, NoRmvFlag=FORBID_RMV_ENUM;
+MOD EUTRANINTERFREQNCELL: LocalCellId=3, Mcc="525", Mnc="03", eNodeBId=132650, CellId=6, NoRmvFlag=FORBID_RMV_ENUM;
+ADD CAGROUPCELL: CaGroupId=2, LocalCellId=3, eNodeBId=132650;
+ADD CAGROUPSCELLCFG: LocalCellId=3, SCelleNodeBId=132650, SCellLocalCellId=6, SCellBlindCfgFlag=TRUE;
+MOD CELLDLSCHALGO: LocalCellId=3, CaSchStrategy=DIFF_SCHEDULE;
+/////////
+
+//By default
+MOD PDSCHCFG: LocalCellId=3, ReferenceSignalPwr=152, Pb=0;
+MOD CELLDLPCPDSCHPA: LocalCellId=3, PaPcOff=DB0_P_A;
+MOD CELLDLPCPDCCH: LocalCellId=3, DediDciPwrOffset=0;
+MOD CELLDLPCPHICH: LocalCellId=3, PwrOffset=30;
+MOD CELLCHPWRCFG: LocalCellId=3, PcfichPwr=0, PbchPwr=0, SchPwr=0, DbchPwr=0, PchPwr=0, RaRspPwr=600;
+////////
+
+
+MOD CELLALGOSWITCH: LocalCellId=3, RachAlgoSwitch=RachAdjSwitch-1&HoRaSwitch-1&UnsyncRaSwitch-1, SrsAlgoSwitch=SrsSubframeRecfSwitch-1, PucchAlgoSwitch=PucchSwitch-1, AqmAlgoSwitch=AqmAlgoSwitch-1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&DlCqiAdjDeltaOptSwitch-1, DynAdjVoltSwitch=DynAdjVoltSwitch-1, RacAlgoSwitch=PreemptionSwitch-1, DlPcAlgoSwitch=PdschSpsPcSwitch-0&PdcchPcSwitch-1, UlPcAlgoSwitch=CloseLoopSpsSwitch-0&InnerLoopPuschSwitch-1&InnerLoopPucchSwitch-1, DlSchSwitch=FreqSelSwitch-1&SpsSchSwitch-0&EnAperiodicCqiRptSwitch-1&AperiodicCqiTrigOptSwitch-1&VoipTbsBasedMcsSelSwitch-1, UlSchSwitch=SpsSchSwitch-0&SinrAdjustSwitch-1&PreAllocationSwitch-1&TtiBundlingSwitch-1&SmartPreAllocationSwitch-1&PuschDtxSwitch-1&UlEnhancedFssSwitch-1&SchedulerCtrlPowerSwitch-1, FreqPriorityHoSwitch=FreqPriorIFBlindHOSwitch-1, UplinkCompSwitch=UlJointReceptionSwitch-1, PuschIrcAlgoSwitch=MrcIrcAdptSwitch-1&MrcIrcAdaptivefor2R-1;
+ADD UTRANRANSHARE:LocalCellId=3, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=3, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=3, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=3, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=3, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=3, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD CELLMIMOPARACFG: LocalCellId=3, MimoAdaptiveSwitch=NO_ADAPTIVE, FixedMimoMode=TM3, InitialMimoType=ADAPTIVE;
+MOD CELLPDCCHALGO: LocalCellID=3, PdcchPowerEnhancedSwitch=ON;
+MOD CELLALGOSWITCH: LocalCellId=3, UlPcAlgoSwitch=OuterLoopPucchSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=3, InterfRandSwitch=ENB_BASED;
+MOD CELLDLSCHALGO: LocalCellId=3, EnbInterfRandMod=MOD3;
+MOD CELLULSCHALGO: LocalCellId=3, ULRBALLOCATIONSTRATEGY=FS_INRANDOM_ADAPTIVE, UlInterfRandomMode=THREE_MODE_BASED_ON_PCI;
+MOD CELLALGOSWITCH: LocalCellId=3, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&StepVarySwitch-0&DlVarIBLERtargetSwitch-0&TddBundlingCqiAdjOptSwitch-0&TddMultiplexingCqiAdjOptSwitch-0&AdaptiveStepVarySwitch-0&DlCqiAdjDeltaOptSwitch-1&DlEnVarIblerTargetSwitch-0&DlRetxTbsIndexAdjOptSwitch-1&CfiConvertOptSwitch-0&BundlingOptThdSwitch-0;
+MOD CELLDLSCHALGO: LocalCellId=3, CqiAdjInitialStep=100;
+MOD CELLCQIADJALGO: LocalCellId=3, InitDeltaCqi=-4;
+MOD CELLALGOSWITCH: LocalCellId=3, UplinkCompSwitch=UlJointReceptionSwitch-1&UlJointReception3CellSwitch-1;
+MOD PUCCHCFG: LocalCellId=3, Format1ChAllocMode=RANDOMMODE;
+MOD CELLRESEL: LocalCellId=3, SpeedDepReselCfgInd=CFG;
+MOD TATIMER: LocalCellId=3, TimeAlignmentTimer=INFINITY, TimingAdvCmdOptSwitch=ON, TACmdSendPeriod=SF928, TimingMeasMode=INVALID, TimingResOptSwitch=ON;
+MOD SECTOR: SECTORID=3, LOCATIONNAME="132650";
+ADD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD CELLULPCCOMM: LocalCellId=3, PassLossCoeff=AL1, P0NominalPUCCH=-115, P0NominalPUSCH=-106;
+MOD RACHCFG: LocalCellId=3, PwrRampingStep=DB4_PWR_RAMPING_STEP, PreambInitRcvTargetPwr=DBM_110;
+MOD UETIMERCONST: LocalCellId=3, T300=MS1000_T300, T301=MS600_T301, T310=MS2000_T310;
+MOD PUSCHCFG: LOCALCELLID=3, QAM64ENABLED=BOOLEAN_TRUE, R12Qam64Enabled=BOOLEAN_TRUE;
+MOD CELLCQIADAPTIVECFG: LocalCellId=3, HoAperiodicCqiCfgSwitch=ON;
+//Cell 4
+
+
+
+MOD CELLRESEL: LocalCellId=4, CellReselPriority=7, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=8, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+ADD EUTRANINTERNFREQ: LocalCellId=4, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, MeasBandWidth=MBW100, ThreshXhigh=6, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD EUTRANINTERNFREQ: LocalCellId=4, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD INTERFREQHOGROUP: LocalCellId=4, InterFreqHoGroupId=0, InterFreqHoA1A2Hyst=4, InterFreqHoA1ThdRsrp=-105, InterFreqHoA2ThdRsrp=-109, InterFreqHoA4Hyst=4, InterFreqHoA4ThdRsrp=-109;
+
+MOD TATIMER: LocalCellId=4, TimeAlignmentTimer=SF5120, TimingResOptSwitch=ON;
+
+
+//U21 sites
+ADD UTRANNFREQ: LocalCellId=4,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=4,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=4,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=4,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=4,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=4,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+////////
+
+
+MOD CELLULSCHALGO: LocalCellId=4, UlEnhencedVoipSchSw=UlVoipPreAllocationSwitch-1;
+ADD CELLPREALLOCGROUP: LocalCellId=4, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+MOD CELLPREALLOCGROUP: LocalCellId=4, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+ADD CELLPREALLOCGROUP: LocalCellId=4, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+MOD CELLPREALLOCGROUP: LocalCellId=4, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+ADD DRXPARAGROUP: LocalCellId=4, DrxParaGroupId=1, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+ADD DRXPARAGROUP: LocalCellId=4, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+ADD DRXPARAGROUP: LocalCellId=4, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=4, DrxParaGroupId=1, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+MOD DRXPARAGROUP: LocalCellId=4, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=4, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD CELLULSCHALGO: LocalCellId=4, PuschDtxSchStrategy=ADAPTIVE_RETX, UlVoipRlcMaxSegNum=20;
+MOD CELLMCPARA: LocalCellId=4, ReportAmount=r1, ReportInterval=1min;
+
+MOD INTERRATHOCOMMGROUP: LocalCellId=4, InterRatHoCommGroupId=0, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-111, InterRatHoA2ThdRsrp=-115;
+ADD INTERRATHOCOMMGROUP: LocalCellId=4, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD INTERRATHOCOMMGROUP: LocalCellId=4, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD SRSCFG: LocalCellId=4, SrsCfgInd=BOOLEAN_TRUE, FddSrsCfgMode=ADAPTIVEMODE;
+MOD CELLPDCCHALGO: LocalCellId=4, PdcchCapacityImproveSwitch=ON, PdcchMaxCodeRate=95, HysForCfiBasedPreSch=0;
+MOD CELLALGOSWITCH: LocalCellId=4, UlSchSwitch=UlLast2RetransSchOptSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=4, CqiAdjAlgoSwitch=DlRetxTbsIndexAdjOptSwitch-1;
+MOD ANR: SmartPreallocationMode=DISABLE;
+MOD CELLULSCHALGO: LocalCellId=4, UlEnhencedVoipSchSw=UlVoipSchOptSwitch-1;
+
+
+
+
+ADD INTERRATHOUTRANGROUP: LocalCellId=4, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=4, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=4, InterRatHoUtranGroupId=0, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=640ms;
+MOD CELLQCIPARA: LocalCellId=4, Qci=1, InterRatHoCommGroupId=1, InterRatHoUtranGroupId=1, DrxParaGroupId=1, QciPriorityForHo=1, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=4, Qci=2, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=4, Qci=3, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=4, Qci=4, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=4, Qci=5, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=4, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=4, Qci=6, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=4, Qci=7, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=4, Qci=8, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=4, Qci=9, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+
+MOD CELLALGOSWITCH: LocalCellId=4, MlbAlgoSwitch=InterFreqMlbSwitch-0&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=4, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+
+//Run below scripts if CA needs to be configured
+MOD CAMGTCFG: LocalCellId=4,CarrierMgtSwitch=ON,ActiveBufferLenThd=6,DeactiveBufferLenThd=3,ActiveBufferDelayThd=10,DeactiveThroughputThd=100,SccDeactCqiThd=2;
+MOD CELLDLSCHALGO: LocalCellId=4, CaSchStrategy=DIFF_SCHEDULE, HoStaticMcsTimer=10;
+MOD CELLALGOSWITCH: LocalCellId=4, MlbAlgoSwitch=InterFreqMlbSwitch-1&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=4, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+ADD EUTRANINTERFREQNCELL: LocalCellId=4, Mcc="525", Mnc="03", eNodeBId=132650, CellId=1, OverlapInd=YES;
+MOD EUTRANINTERFREQNCELL: LocalCellId=4, Mcc="525", Mnc="03", eNodeBId=132650, CellId=1, OverlapInd=YES;
+MOD EUTRANINTERNFREQ: LocalCellID=4, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6;
+MOD CELLRESEL: LocalCellId=4, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+//Expansion site needs to exe below for existing cell
+ADD EUTRANINTERFREQNCELL: LocalCellId=4, Mcc="525", Mnc="03", eNodeBId=132650, CellId=1, NoRmvFlag=FORBID_RMV_ENUM;
+MOD EUTRANINTERFREQNCELL: LocalCellId=4, Mcc="525", Mnc="03", eNodeBId=132650, CellId=1, NoRmvFlag=FORBID_RMV_ENUM;
+ADD CAGROUPCELL: CaGroupId=0, LocalCellId=4, eNodeBId=132650;
+ADD CAGROUPSCELLCFG: LocalCellId=4, SCelleNodeBId=132650, SCellLocalCellId=1, SCellBlindCfgFlag=TRUE;
+MOD CELLDLSCHALGO: LocalCellId=4, CaSchStrategy=DIFF_SCHEDULE;
+/////////
+
+
+//Only do this setting based on M1 request
+MOD CELLDLPCPDSCHPA: LocalCellId=4, PaPcOff=DB_3_P_A;
+MOD CELLDLPCPDCCH: LocalCellId=4, DediDciPwrOffset=-30;
+MOD CELLDLPCPHICH: LocalCellId=4, PwrOffset=0;
+MOD CELLCHPWRCFG: LocalCellId=4, PcfichPwr=-600, PbchPwr=-600, SchPwr=-600, DbchPwr=-600, PchPwr=-600, RaRspPwr=0;
+MOD PDSCHCFG: LocalCellId=4, ReferenceSignalPwr=182, Pb=1;
+/////////
+MOD CELLALGOSWITCH: LocalCellId=4, RachAlgoSwitch=RachAdjSwitch-1&HoRaSwitch-1&UnsyncRaSwitch-1, SrsAlgoSwitch=SrsSubframeRecfSwitch-1, PucchAlgoSwitch=PucchSwitch-1, AqmAlgoSwitch=AqmAlgoSwitch-1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&DlCqiAdjDeltaOptSwitch-1, DynAdjVoltSwitch=DynAdjVoltSwitch-1, RacAlgoSwitch=PreemptionSwitch-1, DlPcAlgoSwitch=PdschSpsPcSwitch-0&PdcchPcSwitch-1, UlPcAlgoSwitch=CloseLoopSpsSwitch-0&InnerLoopPuschSwitch-1&InnerLoopPucchSwitch-1, DlSchSwitch=FreqSelSwitch-1&SpsSchSwitch-0&EnAperiodicCqiRptSwitch-1&AperiodicCqiTrigOptSwitch-1&VoipTbsBasedMcsSelSwitch-1, UlSchSwitch=SpsSchSwitch-0&SinrAdjustSwitch-1&PreAllocationSwitch-1&TtiBundlingSwitch-1&SmartPreAllocationSwitch-1&PuschDtxSwitch-1&UlEnhancedFssSwitch-1&SchedulerCtrlPowerSwitch-1, FreqPriorityHoSwitch=FreqPriorIFBlindHOSwitch-1, UplinkCompSwitch=UlJointReceptionSwitch-1, PuschIrcAlgoSwitch=MrcIrcAdptSwitch-1&MrcIrcAdaptivefor2R-1;
+ADD UTRANRANSHARE:LocalCellId=4, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=4, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=4, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=4, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=4, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=4, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD CELLMIMOPARACFG: LocalCellId=4, MimoAdaptiveSwitch=NO_ADAPTIVE, FixedMimoMode=TM3, InitialMimoType=ADAPTIVE;
+MOD CELLPDCCHALGO: LocalCellID=4, PdcchPowerEnhancedSwitch=ON;
+MOD CELLALGOSWITCH: LocalCellId=4, UlPcAlgoSwitch=OuterLoopPucchSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=4, InterfRandSwitch=ENB_BASED;
+MOD CELLDLSCHALGO: LocalCellId=4, EnbInterfRandMod=MOD3;
+MOD CELLULSCHALGO: LocalCellId=4, ULRBALLOCATIONSTRATEGY=FS_INRANDOM_ADAPTIVE, UlInterfRandomMode=THREE_MODE_BASED_ON_PCI;
+MOD CELLALGOSWITCH: LocalCellId=4, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&StepVarySwitch-0&DlVarIBLERtargetSwitch-0&TddBundlingCqiAdjOptSwitch-0&TddMultiplexingCqiAdjOptSwitch-0&AdaptiveStepVarySwitch-0&DlCqiAdjDeltaOptSwitch-1&DlEnVarIblerTargetSwitch-0&DlRetxTbsIndexAdjOptSwitch-1&CfiConvertOptSwitch-0&BundlingOptThdSwitch-0;
+MOD CELLDLSCHALGO: LocalCellId=4, CqiAdjInitialStep=100;
+MOD CELLCQIADJALGO: LocalCellId=4, InitDeltaCqi=-4;
+MOD CELLALGOSWITCH: LocalCellId=4, UplinkCompSwitch=UlJointReceptionSwitch-1&UlJointReception3CellSwitch-1;
+MOD PUCCHCFG: LocalCellId=4, Format1ChAllocMode=RANDOMMODE;
+MOD CELLRESEL: LocalCellId=4, SpeedDepReselCfgInd=CFG;
+MOD TATIMER: LocalCellId=4, TimeAlignmentTimer=INFINITY, TimingAdvCmdOptSwitch=ON, TACmdSendPeriod=SF928, TimingMeasMode=INVALID, TimingResOptSwitch=ON;
+MOD SECTOR: SECTORID=4, LOCATIONNAME="132650";
+ADD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+
+MOD CELLULPCCOMM: LocalCellId=4, PassLossCoeff=AL1, P0NominalPUCCH=-115, P0NominalPUSCH=-106;
+MOD RACHCFG: LocalCellId=4, PwrRampingStep=DB4_PWR_RAMPING_STEP, PreambInitRcvTargetPwr=DBM_110;
+MOD UETIMERCONST: LocalCellId=4, T300=MS1000_T300, T301=MS600_T301, T310=MS2000_T310;
+MOD PUSCHCFG: LOCALCELLID=4, QAM64ENABLED=BOOLEAN_TRUE, R12Qam64Enabled=BOOLEAN_TRUE;
+MOD CELLCQIADAPTIVECFG: LocalCellId=4, HoAperiodicCqiCfgSwitch=ON;
+
+//Cell 5
+
+
+
+MOD CELLRESEL: LocalCellId=5, CellReselPriority=7, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=8, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+ADD EUTRANINTERNFREQ: LocalCellId=5, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, MeasBandWidth=MBW100, ThreshXhigh=6, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD EUTRANINTERNFREQ: LocalCellId=5, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD INTERFREQHOGROUP: LocalCellId=5, InterFreqHoGroupId=0, InterFreqHoA1A2Hyst=4, InterFreqHoA1ThdRsrp=-105, InterFreqHoA2ThdRsrp=-109, InterFreqHoA4Hyst=4, InterFreqHoA4ThdRsrp=-109;
+
+MOD TATIMER: LocalCellId=5, TimeAlignmentTimer=SF5120, TimingResOptSwitch=ON;
+
+
+//U21 sites
+ADD UTRANNFREQ: LocalCellId=5,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=5,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=5,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=5,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=5,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=5,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+////////
+
+
+MOD CELLULSCHALGO: LocalCellId=5, UlEnhencedVoipSchSw=UlVoipPreAllocationSwitch-1;
+ADD CELLPREALLOCGROUP: LocalCellId=5, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+MOD CELLPREALLOCGROUP: LocalCellId=5, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+ADD CELLPREALLOCGROUP: LocalCellId=5, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+MOD CELLPREALLOCGROUP: LocalCellId=5, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+ADD DRXPARAGROUP: LocalCellId=5, DrxParaGroupId=1, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+ADD DRXPARAGROUP: LocalCellId=5, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+ADD DRXPARAGROUP: LocalCellId=5, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=5, DrxParaGroupId=1, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+MOD DRXPARAGROUP: LocalCellId=5, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=5, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD CELLULSCHALGO: LocalCellId=5, PuschDtxSchStrategy=ADAPTIVE_RETX, UlVoipRlcMaxSegNum=20;
+MOD CELLMCPARA: LocalCellId=5, ReportAmount=r1, ReportInterval=1min;
+
+MOD INTERRATHOCOMMGROUP: LocalCellId=5, InterRatHoCommGroupId=0, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-111, InterRatHoA2ThdRsrp=-115;
+ADD INTERRATHOCOMMGROUP: LocalCellId=5, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD INTERRATHOCOMMGROUP: LocalCellId=5, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD SRSCFG: LocalCellId=5, SrsCfgInd=BOOLEAN_TRUE, FddSrsCfgMode=ADAPTIVEMODE;
+MOD CELLPDCCHALGO: LocalCellId=5, PdcchCapacityImproveSwitch=ON, PdcchMaxCodeRate=95, HysForCfiBasedPreSch=0;
+MOD CELLALGOSWITCH: LocalCellId=5, UlSchSwitch=UlLast2RetransSchOptSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=5, CqiAdjAlgoSwitch=DlRetxTbsIndexAdjOptSwitch-1;
+MOD ANR: SmartPreallocationMode=DISABLE;
+MOD CELLULSCHALGO: LocalCellId=5, UlEnhencedVoipSchSw=UlVoipSchOptSwitch-1;
+
+
+
+
+ADD INTERRATHOUTRANGROUP: LocalCellId=5, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=5, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=5, InterRatHoUtranGroupId=0, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=640ms;
+MOD CELLQCIPARA: LocalCellId=5, Qci=1, InterRatHoCommGroupId=1, InterRatHoUtranGroupId=1, DrxParaGroupId=1, QciPriorityForHo=1, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=5, Qci=2, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=5, Qci=3, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=5, Qci=4, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=5, Qci=5, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=4, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=5, Qci=6, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=5, Qci=7, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=5, Qci=8, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=5, Qci=9, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+
+MOD CELLALGOSWITCH: LocalCellId=5, MlbAlgoSwitch=InterFreqMlbSwitch-0&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=5, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+
+//Run below scripts if CA needs to be configured
+MOD CAMGTCFG: LocalCellId=5,CarrierMgtSwitch=ON,ActiveBufferLenThd=6,DeactiveBufferLenThd=3,ActiveBufferDelayThd=10,DeactiveThroughputThd=100,SccDeactCqiThd=2;
+MOD CELLDLSCHALGO: LocalCellId=5, CaSchStrategy=DIFF_SCHEDULE, HoStaticMcsTimer=10;
+MOD CELLALGOSWITCH: LocalCellId=5, MlbAlgoSwitch=InterFreqMlbSwitch-1&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=5, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+ADD EUTRANINTERFREQNCELL: LocalCellId=5, Mcc="525", Mnc="03", eNodeBId=132650, CellId=2, OverlapInd=YES;
+MOD EUTRANINTERFREQNCELL: LocalCellId=5, Mcc="525", Mnc="03", eNodeBId=132650, CellId=2, OverlapInd=YES;
+MOD EUTRANINTERNFREQ: LocalCellID=5, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6;
+MOD CELLRESEL: LocalCellId=5, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+//Expansion site needs to exe below for existing cell
+ADD EUTRANINTERFREQNCELL: LocalCellId=5, Mcc="525", Mnc="03", eNodeBId=132650, CellId=2, NoRmvFlag=FORBID_RMV_ENUM;
+MOD EUTRANINTERFREQNCELL: LocalCellId=5, Mcc="525", Mnc="03", eNodeBId=132650, CellId=2, NoRmvFlag=FORBID_RMV_ENUM;
+ADD CAGROUPCELL: CaGroupId=1, LocalCellId=5, eNodeBId=132650;
+ADD CAGROUPSCELLCFG: LocalCellId=5, SCelleNodeBId=132650, SCellLocalCellId=2, SCellBlindCfgFlag=TRUE;
+MOD CELLDLSCHALGO: LocalCellId=5, CaSchStrategy=DIFF_SCHEDULE;
+/////////
+
+
+//Only do this setting based on M1 request
+MOD CELLDLPCPDSCHPA: LocalCellId=5, PaPcOff=DB_3_P_A;
+MOD CELLDLPCPDCCH: LocalCellId=5, DediDciPwrOffset=-30;
+MOD CELLDLPCPHICH: LocalCellId=5, PwrOffset=0;
+MOD CELLCHPWRCFG: LocalCellId=5, PcfichPwr=-600, PbchPwr=-600, SchPwr=-600, DbchPwr=-600, PchPwr=-600, RaRspPwr=0;
+MOD PDSCHCFG: LocalCellId=5, ReferenceSignalPwr=182, Pb=1;
+/////////
+MOD CELLALGOSWITCH: LocalCellId=5, RachAlgoSwitch=RachAdjSwitch-1&HoRaSwitch-1&UnsyncRaSwitch-1, SrsAlgoSwitch=SrsSubframeRecfSwitch-1, PucchAlgoSwitch=PucchSwitch-1, AqmAlgoSwitch=AqmAlgoSwitch-1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&DlCqiAdjDeltaOptSwitch-1, DynAdjVoltSwitch=DynAdjVoltSwitch-1, RacAlgoSwitch=PreemptionSwitch-1, DlPcAlgoSwitch=PdschSpsPcSwitch-0&PdcchPcSwitch-1, UlPcAlgoSwitch=CloseLoopSpsSwitch-0&InnerLoopPuschSwitch-1&InnerLoopPucchSwitch-1, DlSchSwitch=FreqSelSwitch-1&SpsSchSwitch-0&EnAperiodicCqiRptSwitch-1&AperiodicCqiTrigOptSwitch-1&VoipTbsBasedMcsSelSwitch-1, UlSchSwitch=SpsSchSwitch-0&SinrAdjustSwitch-1&PreAllocationSwitch-1&TtiBundlingSwitch-1&SmartPreAllocationSwitch-1&PuschDtxSwitch-1&UlEnhancedFssSwitch-1&SchedulerCtrlPowerSwitch-1, FreqPriorityHoSwitch=FreqPriorIFBlindHOSwitch-1, UplinkCompSwitch=UlJointReceptionSwitch-1, PuschIrcAlgoSwitch=MrcIrcAdptSwitch-1&MrcIrcAdaptivefor2R-1;
+ADD UTRANRANSHARE:LocalCellId=5, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=5, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=5, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=5, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=5, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=5, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD CELLMIMOPARACFG: LocalCellId=5, MimoAdaptiveSwitch=NO_ADAPTIVE, FixedMimoMode=TM3, InitialMimoType=ADAPTIVE;
+MOD CELLPDCCHALGO: LocalCellID=5, PdcchPowerEnhancedSwitch=ON;
+MOD CELLALGOSWITCH: LocalCellId=5, UlPcAlgoSwitch=OuterLoopPucchSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=5, InterfRandSwitch=ENB_BASED;
+MOD CELLDLSCHALGO: LocalCellId=5, EnbInterfRandMod=MOD3;
+MOD CELLULSCHALGO: LocalCellId=5, ULRBALLOCATIONSTRATEGY=FS_INRANDOM_ADAPTIVE, UlInterfRandomMode=THREE_MODE_BASED_ON_PCI;
+MOD CELLALGOSWITCH: LocalCellId=5, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&StepVarySwitch-0&DlVarIBLERtargetSwitch-0&TddBundlingCqiAdjOptSwitch-0&TddMultiplexingCqiAdjOptSwitch-0&AdaptiveStepVarySwitch-0&DlCqiAdjDeltaOptSwitch-1&DlEnVarIblerTargetSwitch-0&DlRetxTbsIndexAdjOptSwitch-1&CfiConvertOptSwitch-0&BundlingOptThdSwitch-0;
+MOD CELLDLSCHALGO: LocalCellId=5, CqiAdjInitialStep=100;
+MOD CELLCQIADJALGO: LocalCellId=5, InitDeltaCqi=-4;
+MOD CELLALGOSWITCH: LocalCellId=5, UplinkCompSwitch=UlJointReceptionSwitch-1&UlJointReception3CellSwitch-1;
+MOD PUCCHCFG: LocalCellId=5, Format1ChAllocMode=RANDOMMODE;
+MOD CELLRESEL: LocalCellId=5, SpeedDepReselCfgInd=CFG;
+MOD TATIMER: LocalCellId=5, TimeAlignmentTimer=INFINITY, TimingAdvCmdOptSwitch=ON, TACmdSendPeriod=SF928, TimingMeasMode=INVALID, TimingResOptSwitch=ON;
+MOD SECTOR: SECTORID=5, LOCATIONNAME="132650";
+ADD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+
+MOD CELLULPCCOMM: LocalCellId=5, PassLossCoeff=AL1, P0NominalPUCCH=-115, P0NominalPUSCH=-106;
+MOD RACHCFG: LocalCellId=5, PwrRampingStep=DB4_PWR_RAMPING_STEP, PreambInitRcvTargetPwr=DBM_110;
+MOD UETIMERCONST: LocalCellId=5, T300=MS1000_T300, T301=MS600_T301, T310=MS2000_T310;
+MOD PUSCHCFG: LOCALCELLID=5, QAM64ENABLED=BOOLEAN_TRUE, R12Qam64Enabled=BOOLEAN_TRUE;
+MOD CELLCQIADAPTIVECFG: LocalCellId=5, HoAperiodicCqiCfgSwitch=ON;
+
+//Cell 6
+
+
+
+MOD CELLRESEL: LocalCellId=6, CellReselPriority=7, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=8, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+ADD EUTRANINTERNFREQ: LocalCellId=6, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, MeasBandWidth=MBW100, ThreshXhigh=6, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD EUTRANINTERNFREQ: LocalCellId=6, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD INTERFREQHOGROUP: LocalCellId=6, InterFreqHoGroupId=0, InterFreqHoA1A2Hyst=4, InterFreqHoA1ThdRsrp=-105, InterFreqHoA2ThdRsrp=-109, InterFreqHoA4Hyst=4, InterFreqHoA4ThdRsrp=-109;
+
+MOD TATIMER: LocalCellId=6, TimeAlignmentTimer=SF5120, TimingResOptSwitch=ON;
+
+
+//U21 sites
+ADD UTRANNFREQ: LocalCellId=6,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=6,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=6,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=6,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=6,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=6,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+////////
+
+
+MOD CELLULSCHALGO: LocalCellId=6, UlEnhencedVoipSchSw=UlVoipPreAllocationSwitch-1;
+ADD CELLPREALLOCGROUP: LocalCellId=6, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+MOD CELLPREALLOCGROUP: LocalCellId=6, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+ADD CELLPREALLOCGROUP: LocalCellId=6, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+MOD CELLPREALLOCGROUP: LocalCellId=6, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+ADD DRXPARAGROUP: LocalCellId=6, DrxParaGroupId=1, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+ADD DRXPARAGROUP: LocalCellId=6, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+ADD DRXPARAGROUP: LocalCellId=6, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=6, DrxParaGroupId=1, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+MOD DRXPARAGROUP: LocalCellId=6, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=6, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD CELLULSCHALGO: LocalCellId=6, PuschDtxSchStrategy=ADAPTIVE_RETX, UlVoipRlcMaxSegNum=20;
+MOD CELLMCPARA: LocalCellId=6, ReportAmount=r1, ReportInterval=1min;
+
+MOD INTERRATHOCOMMGROUP: LocalCellId=6, InterRatHoCommGroupId=0, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-111, InterRatHoA2ThdRsrp=-115;
+ADD INTERRATHOCOMMGROUP: LocalCellId=6, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD INTERRATHOCOMMGROUP: LocalCellId=6, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD SRSCFG: LocalCellId=6, SrsCfgInd=BOOLEAN_TRUE, FddSrsCfgMode=ADAPTIVEMODE;
+MOD CELLPDCCHALGO: LocalCellId=6, PdcchCapacityImproveSwitch=ON, PdcchMaxCodeRate=95, HysForCfiBasedPreSch=0;
+MOD CELLALGOSWITCH: LocalCellId=6, UlSchSwitch=UlLast2RetransSchOptSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=6, CqiAdjAlgoSwitch=DlRetxTbsIndexAdjOptSwitch-1;
+MOD ANR: SmartPreallocationMode=DISABLE;
+MOD CELLULSCHALGO: LocalCellId=6, UlEnhencedVoipSchSw=UlVoipSchOptSwitch-1;
+
+
+
+
+ADD INTERRATHOUTRANGROUP: LocalCellId=6, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=6, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=6, InterRatHoUtranGroupId=0, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=640ms;
+MOD CELLQCIPARA: LocalCellId=6, Qci=1, InterRatHoCommGroupId=1, InterRatHoUtranGroupId=1, DrxParaGroupId=1, QciPriorityForHo=1, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=6, Qci=2, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=6, Qci=3, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=6, Qci=4, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=6, Qci=5, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=4, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=6, Qci=6, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=6, Qci=7, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=6, Qci=8, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=6, Qci=9, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+
+MOD CELLALGOSWITCH: LocalCellId=6, MlbAlgoSwitch=InterFreqMlbSwitch-0&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=6, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+
+//Run below scripts if CA needs to be configured
+MOD CAMGTCFG: LocalCellId=6,CarrierMgtSwitch=ON,ActiveBufferLenThd=6,DeactiveBufferLenThd=3,ActiveBufferDelayThd=10,DeactiveThroughputThd=100,SccDeactCqiThd=2;
+MOD CELLDLSCHALGO: LocalCellId=6, CaSchStrategy=DIFF_SCHEDULE, HoStaticMcsTimer=10;
+MOD CELLALGOSWITCH: LocalCellId=6, MlbAlgoSwitch=InterFreqMlbSwitch-1&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=6, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+ADD EUTRANINTERFREQNCELL: LocalCellId=6, Mcc="525", Mnc="03", eNodeBId=132650, CellId=3, OverlapInd=YES;
+MOD EUTRANINTERFREQNCELL: LocalCellId=6, Mcc="525", Mnc="03", eNodeBId=132650, CellId=3, OverlapInd=YES;
+MOD EUTRANINTERNFREQ: LocalCellID=6, DlEarfcn=1850, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=6, ThreshXLow=6;
+MOD CELLRESEL: LocalCellId=6, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+//Expansion site needs to exe below for existing cell
+ADD EUTRANINTERFREQNCELL: LocalCellId=6, Mcc="525", Mnc="03", eNodeBId=132650, CellId=3, NoRmvFlag=FORBID_RMV_ENUM;
+MOD EUTRANINTERFREQNCELL: LocalCellId=6, Mcc="525", Mnc="03", eNodeBId=132650, CellId=3, NoRmvFlag=FORBID_RMV_ENUM;
+ADD CAGROUPCELL: CaGroupId=2, LocalCellId=6, eNodeBId=132650;
+ADD CAGROUPSCELLCFG: LocalCellId=6, SCelleNodeBId=132650, SCellLocalCellId=3, SCellBlindCfgFlag=TRUE;
+MOD CELLDLSCHALGO: LocalCellId=6, CaSchStrategy=DIFF_SCHEDULE;
+/////////
+
+
+//Only do this setting based on M1 request
+MOD CELLDLPCPDSCHPA: LocalCellId=6, PaPcOff=DB_3_P_A;
+MOD CELLDLPCPDCCH: LocalCellId=6, DediDciPwrOffset=-30;
+MOD CELLDLPCPHICH: LocalCellId=6, PwrOffset=0;
+MOD CELLCHPWRCFG: LocalCellId=6, PcfichPwr=-600, PbchPwr=-600, SchPwr=-600, DbchPwr=-600, PchPwr=-600, RaRspPwr=0;
+MOD PDSCHCFG: LocalCellId=6, ReferenceSignalPwr=182, Pb=1;
+/////////
+MOD CELLALGOSWITCH: LocalCellId=6, RachAlgoSwitch=RachAdjSwitch-1&HoRaSwitch-1&UnsyncRaSwitch-1, SrsAlgoSwitch=SrsSubframeRecfSwitch-1, PucchAlgoSwitch=PucchSwitch-1, AqmAlgoSwitch=AqmAlgoSwitch-1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&DlCqiAdjDeltaOptSwitch-1, DynAdjVoltSwitch=DynAdjVoltSwitch-1, RacAlgoSwitch=PreemptionSwitch-1, DlPcAlgoSwitch=PdschSpsPcSwitch-0&PdcchPcSwitch-1, UlPcAlgoSwitch=CloseLoopSpsSwitch-0&InnerLoopPuschSwitch-1&InnerLoopPucchSwitch-1, DlSchSwitch=FreqSelSwitch-1&SpsSchSwitch-0&EnAperiodicCqiRptSwitch-1&AperiodicCqiTrigOptSwitch-1&VoipTbsBasedMcsSelSwitch-1, UlSchSwitch=SpsSchSwitch-0&SinrAdjustSwitch-1&PreAllocationSwitch-1&TtiBundlingSwitch-1&SmartPreAllocationSwitch-1&PuschDtxSwitch-1&UlEnhancedFssSwitch-1&SchedulerCtrlPowerSwitch-1, FreqPriorityHoSwitch=FreqPriorIFBlindHOSwitch-1, UplinkCompSwitch=UlJointReceptionSwitch-1, PuschIrcAlgoSwitch=MrcIrcAdptSwitch-1&MrcIrcAdaptivefor2R-1;
+ADD UTRANRANSHARE:LocalCellId=6, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=6, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=6, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=6, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=6, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=6, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD CELLMIMOPARACFG: LocalCellId=6, MimoAdaptiveSwitch=NO_ADAPTIVE, FixedMimoMode=TM3, InitialMimoType=ADAPTIVE;
+MOD CELLPDCCHALGO: LocalCellID=6, PdcchPowerEnhancedSwitch=ON;
+MOD CELLALGOSWITCH: LocalCellId=6, UlPcAlgoSwitch=OuterLoopPucchSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=6, InterfRandSwitch=ENB_BASED;
+MOD CELLDLSCHALGO: LocalCellId=6, EnbInterfRandMod=MOD3;
+MOD CELLULSCHALGO: LocalCellId=6, ULRBALLOCATIONSTRATEGY=FS_INRANDOM_ADAPTIVE, UlInterfRandomMode=THREE_MODE_BASED_ON_PCI;
+MOD CELLALGOSWITCH: LocalCellId=6, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&StepVarySwitch-0&DlVarIBLERtargetSwitch-0&TddBundlingCqiAdjOptSwitch-0&TddMultiplexingCqiAdjOptSwitch-0&AdaptiveStepVarySwitch-0&DlCqiAdjDeltaOptSwitch-1&DlEnVarIblerTargetSwitch-0&DlRetxTbsIndexAdjOptSwitch-1&CfiConvertOptSwitch-0&BundlingOptThdSwitch-0;
+MOD CELLDLSCHALGO: LocalCellId=6, CqiAdjInitialStep=100;
+MOD CELLCQIADJALGO: LocalCellId=6, InitDeltaCqi=-4;
+MOD CELLALGOSWITCH: LocalCellId=6, UplinkCompSwitch=UlJointReceptionSwitch-1&UlJointReception3CellSwitch-1;
+MOD PUCCHCFG: LocalCellId=6, Format1ChAllocMode=RANDOMMODE;
+MOD CELLRESEL: LocalCellId=6, SpeedDepReselCfgInd=CFG;
+MOD TATIMER: LocalCellId=6, TimeAlignmentTimer=INFINITY, TimingAdvCmdOptSwitch=ON, TACmdSendPeriod=SF928, TimingMeasMode=INVALID, TimingResOptSwitch=ON;
+MOD SECTOR: SECTORID=6, LOCATIONNAME="132650";
+ADD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+
+MOD CELLULPCCOMM: LocalCellId=6, PassLossCoeff=AL1, P0NominalPUCCH=-115, P0NominalPUSCH=-106;
+MOD RACHCFG: LocalCellId=6, PwrRampingStep=DB4_PWR_RAMPING_STEP, PreambInitRcvTargetPwr=DBM_110;
+MOD UETIMERCONST: LocalCellId=6, T300=MS1000_T300, T301=MS600_T301, T310=MS2000_T310;
+MOD PUSCHCFG: LOCALCELLID=6, QAM64ENABLED=BOOLEAN_TRUE, R12Qam64Enabled=BOOLEAN_TRUE;
+MOD CELLCQIADAPTIVECFG: LocalCellId=6, HoAperiodicCqiCfgSwitch=ON;
+
+//Cell 7
+
+
+//Non-Coastal L18
+MOD CELLRESEL: LocalCellId=7, CellReselPriority=6, SNONINTRASEARCHCFGIND=CFG, sNonIntraSearch=14, ThrshServLow=6, TReselEutran=1, QQUALMINCFGIND=CFG, QQualMin=-18;
+ADD EUTRANINTERNFREQ: LocalCellID=7, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, MeasBandWidth=MBW100, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD EUTRANINTERNFREQ: LocalCellId=7, DlEarfcn=3050, CELLRESELPRIORITYCFGIND=CFG, CellReselPriority=6, ThreshXhigh=11, ThreshXLow=6, QRxLevMin=-64, QOFFSETFREQ=dB0, EUTRANReselTime=1;
+MOD INTERFREQHOGROUP: LocalCellId=7, InterFreqHoGroupId=0, InterFreqHoA1A2Hyst=4, InterFreqHoA1ThdRsrp=-105, InterFreqHoA2ThdRsrp=-109, InterFreqHoA4Hyst=4, InterFreqHoA4ThdRsrp=-109;
+
+
+MOD TATIMER: LocalCellId=7, TimeAlignmentTimer=SF5120, TimingResOptSwitch=ON;
+
+
+//U21 sites
+ADD UTRANNFREQ: LocalCellId=7,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=7,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+ADD UTRANNFREQ: LocalCellId=7,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=7,UtranDlArfcn=10737, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=4,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=2, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=7,UtranDlArfcn=10713, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=0,QRxLevMin=-58,ThreshXLow=31,PsPriority=Priority_2,CsPriority=Priority_2,ConnFreqPriority=0, SrvccPriority=Priority_2;
+MOD UTRANNFREQ: LocalCellId=7,UtranDlArfcn=2989, UtranVersion=HSPA, UtranFddTddType=UTRAN_FDD, UtranUlArfcnCfgInd=NOT_CFG,CellReselPriorityCfgInd=CFG,CellReselPriority=3,QRxLevMin=-58,ThreshXLow=1,PsPriority=Priority_1,CsPriority=Priority_2,ConnFreqPriority=1, SrvccPriority=Priority_2;
+////////
+
+
+
+MOD CELLULSCHALGO: LocalCellId=7, UlEnhencedVoipSchSw=UlVoipPreAllocationSwitch-1;
+ADD CELLPREALLOCGROUP: LocalCellId=7, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+MOD CELLPREALLOCGROUP: LocalCellId=7, PreallocationParaGroupId=1, PreallocationSwitch=ON, SmartPreallocationSwitch=ON, PreallocationMinPeriod=5, PreallocationSize=80, SmartPreallocationDuration=50;
+ADD CELLPREALLOCGROUP: LocalCellId=7, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+MOD CELLPREALLOCGROUP: LocalCellId=7, PreallocationParaGroupId=0, PreallocationSwitch=OFF, SmartPreallocationSwitch=OFF, PreallocationMinPeriod=20, PreallocationSize=120, SmartPreallocationDuration=160;
+ADD DRXPARAGROUP: LocalCellId=7, DrxParaGroupId=1, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+ADD DRXPARAGROUP: LocalCellId=7, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+ADD DRXPARAGROUP: LocalCellId=7, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=7, DrxParaGroupId=1, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF4, DrxInactivityTimer=PSF4, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_DISABLE;
+MOD DRXPARAGROUP: LocalCellId=7, DrxParaGroupId=3, EnterDrxSwitch=ON, CatType=LTE, OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF40, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD DRXPARAGROUP: LocalCellId=7, DrxParaGroupId=4, EnterDrxSwitch=ON,CatType=LTE,  OnDurationTimer=PSF2, DrxInactivityTimer=PSF80, DrxReTxTimer=PSF8, LongDrxCycle=SF80, SupportShortDrx=UU_ENABLE, ShortDrxCycle=SF20, DrxShortCycleTimer=1;
+MOD CELLULSCHALGO: LocalCellId=7, PuschDtxSchStrategy=ADAPTIVE_RETX, UlVoipRlcMaxSegNum=20;
+MOD CELLMCPARA: LocalCellId=7, ReportAmount=r1, ReportInterval=1min;
+
+MOD INTERRATHOCOMMGROUP: LocalCellId=7, InterRatHoCommGroupId=0, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-111, InterRatHoA2ThdRsrp=-115;
+ADD INTERRATHOCOMMGROUP: LocalCellId=7, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD INTERRATHOCOMMGROUP: LocalCellId=7, InterRatHoCommGroupId=1, InterRatHoA1A2Hyst=4, InterRatHoA1A2TimeToTrig=640ms, InterRatHoA1ThdRsrp=-109, InterRatHoA2ThdRsrp=-113;
+MOD SRSCFG: LocalCellId=7, SrsCfgInd=BOOLEAN_TRUE, FddSrsCfgMode=ADAPTIVEMODE;
+MOD CELLPDCCHALGO: LocalCellId=7, PdcchCapacityImproveSwitch=ON, PdcchMaxCodeRate=95, HysForCfiBasedPreSch=0;
+MOD CELLALGOSWITCH: LocalCellId=7, UlSchSwitch=UlLast2RetransSchOptSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=7, CqiAdjAlgoSwitch=DlRetxTbsIndexAdjOptSwitch-1;
+MOD ANR: SmartPreallocationMode=DISABLE;
+MOD CELLULSCHALGO: LocalCellId=7, UlEnhencedVoipSchSw=UlVoipSchOptSwitch-1;
+
+
+
+
+ADD INTERRATHOUTRANGROUP: LocalCellId=7, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=7, InterRatHoUtranGroupId=1, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=40ms;
+MOD INTERRATHOUTRANGROUP: LocalCellId=7, InterRatHoUtranGroupId=0, InterRatHoUtranB1ThdRscp=-105, InterRatHoUtranB1Hyst=4, InterRatHoUtranB1TimeToTrig=640ms;
+MOD CELLQCIPARA: LocalCellId=7, Qci=1, InterRatHoCommGroupId=1, InterRatHoUtranGroupId=1, DrxParaGroupId=1, QciPriorityForHo=1, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=7, Qci=2, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=7, Qci=3, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=7, Qci=4, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=0;
+MOD CELLQCIPARA: LocalCellId=7, Qci=5, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=4, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=7, Qci=6, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=0, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=7, Qci=7, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=7, Qci=8, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+MOD CELLQCIPARA: LocalCellId=7, Qci=9, InterRatHoCommGroupId=0, InterRatHoUtranGroupId=0, DrxParaGroupId=3, QciPriorityForHo=9, PreallocationParaGroupId=1;
+
+MOD CELLALGOSWITCH: LocalCellId=7, MlbAlgoSwitch=InterFreqMlbSwitch-0&InterFreqBlindMlbSwitch-0&InterFreqIdleMlbSwitch-0;
+MOD CELLMLB: LocalCellId=7, MlbTriggerMode=UE_NUMBER_ONLY, InterFreqMlbUeNumThd=50, MlbUeNumOffset=20, MlbMinUeNumThd=10, InterFreqUeTrsfType=SynchronizedUE-0&IdleUE-1, InterFreqIdleMlbUeNumThd=50, InterFreqLoadEvalPrd=30;
+
+
+//By default
+MOD PDSCHCFG: LocalCellId=7, ReferenceSignalPwr=152, Pb=0;
+MOD CELLDLPCPDSCHPA: LocalCellId=7, PaPcOff=DB0_P_A;
+MOD CELLDLPCPDCCH: LocalCellId=7, DediDciPwrOffset=0;
+MOD CELLDLPCPHICH: LocalCellId=7, PwrOffset=30;
+MOD CELLCHPWRCFG: LocalCellId=7, PcfichPwr=0, PbchPwr=0, SchPwr=0, DbchPwr=0, PchPwr=0, RaRspPwr=600;
+////////
+
+
+MOD CELLALGOSWITCH: LocalCellId=7, RachAlgoSwitch=RachAdjSwitch-1&HoRaSwitch-1&UnsyncRaSwitch-1, SrsAlgoSwitch=SrsSubframeRecfSwitch-1, PucchAlgoSwitch=PucchSwitch-1, AqmAlgoSwitch=AqmAlgoSwitch-1, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&DlCqiAdjDeltaOptSwitch-1, DynAdjVoltSwitch=DynAdjVoltSwitch-1, RacAlgoSwitch=PreemptionSwitch-1, DlPcAlgoSwitch=PdschSpsPcSwitch-0&PdcchPcSwitch-1, UlPcAlgoSwitch=CloseLoopSpsSwitch-0&InnerLoopPuschSwitch-1&InnerLoopPucchSwitch-1, DlSchSwitch=FreqSelSwitch-1&SpsSchSwitch-0&EnAperiodicCqiRptSwitch-1&AperiodicCqiTrigOptSwitch-1&VoipTbsBasedMcsSelSwitch-1, UlSchSwitch=SpsSchSwitch-0&SinrAdjustSwitch-1&PreAllocationSwitch-1&TtiBundlingSwitch-1&SmartPreAllocationSwitch-1&PuschDtxSwitch-1&UlEnhancedFssSwitch-1&SchedulerCtrlPowerSwitch-1, FreqPriorityHoSwitch=FreqPriorIFBlindHOSwitch-1, UplinkCompSwitch=UlJointReceptionSwitch-1, PuschIrcAlgoSwitch=MrcIrcAdptSwitch-1&MrcIrcAdaptivefor2R-1;
+ADD UTRANRANSHARE:LocalCellId=7, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=7, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+ADD UTRANRANSHARE:LocalCellId=7, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=7, UtranDlArfcn=10713, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=7, UtranDlArfcn=2989, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD UTRANRANSHARE:LocalCellId=7, UtranDlArfcn=10737, Mcc="525", Mnc="03", CellReselPriorityCfgInd=NOT_CFG;
+MOD CELLMIMOPARACFG: LocalCellId=7, MimoAdaptiveSwitch=NO_ADAPTIVE, FixedMimoMode=TM3, InitialMimoType=ADAPTIVE;
+MOD CELLPDCCHALGO: LocalCellID=7, PdcchPowerEnhancedSwitch=ON;
+MOD CELLALGOSWITCH: LocalCellId=7, UlPcAlgoSwitch=OuterLoopPucchSwitch-1;
+MOD CELLALGOSWITCH: LocalCellId=7, InterfRandSwitch=ENB_BASED;
+MOD CELLDLSCHALGO: LocalCellId=7, EnbInterfRandMod=MOD3;
+MOD CELLULSCHALGO: LocalCellId=7, ULRBALLOCATIONSTRATEGY=FS_INRANDOM_ADAPTIVE, UlInterfRandomMode=THREE_MODE_BASED_ON_PCI;
+MOD CELLALGOSWITCH: LocalCellId=7, CqiAdjAlgoSwitch=CqiAdjAlgoSwitch-1&StepVarySwitch-0&DlVarIBLERtargetSwitch-0&TddBundlingCqiAdjOptSwitch-0&TddMultiplexingCqiAdjOptSwitch-0&AdaptiveStepVarySwitch-0&DlCqiAdjDeltaOptSwitch-1&DlEnVarIblerTargetSwitch-0&DlRetxTbsIndexAdjOptSwitch-1&CfiConvertOptSwitch-0&BundlingOptThdSwitch-0;
+MOD CELLDLSCHALGO: LocalCellId=7, CqiAdjInitialStep=100;
+MOD CELLCQIADJALGO: LocalCellId=7, InitDeltaCqi=-4;
+MOD CELLALGOSWITCH: LocalCellId=7, UplinkCompSwitch=UlJointReceptionSwitch-1&UlJointReception3CellSwitch-1;
+MOD PUCCHCFG: LocalCellId=7, Format1ChAllocMode=RANDOMMODE;
+MOD CELLRESEL: LocalCellId=7, SpeedDepReselCfgInd=CFG;
+MOD TATIMER: LocalCellId=7, TimeAlignmentTimer=INFINITY, TimingAdvCmdOptSwitch=ON, TACmdSendPeriod=SF928, TimingMeasMode=INVALID, TimingResOptSwitch=ON;
+MOD SECTOR: SECTORID=7, LOCATIONNAME="132650";
+ADD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD LOCATION: LOCATIONNAME="132650", MODE=MANUAL, GCDF=Degree, LATITUDEDEGFORMAT=1313622, LONGITUDEDEGFORMAT=103825577;
+MOD CELLULPCCOMM: LocalCellId=7, PassLossCoeff=AL1, P0NominalPUCCH=-115, P0NominalPUSCH=-106;
+MOD RACHCFG: LocalCellId=7, PwrRampingStep=DB4_PWR_RAMPING_STEP, PreambInitRcvTargetPwr=DBM_110;
+MOD UETIMERCONST: LocalCellId=7, T300=MS1000_T300, T301=MS600_T301, T310=MS2000_T310;
+MOD PUSCHCFG: LOCALCELLID=7, QAM64ENABLED=BOOLEAN_TRUE, R12Qam64Enabled=BOOLEAN_TRUE;
+MOD CELLCQIADAPTIVECFG: LocalCellId=7, HoAperiodicCqiCfgSwitch=ON;
